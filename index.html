@@ -15,6 +15,8 @@
         button { background-color: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #45a049; }
         #order-summary { margin-top: 30px; background: #fffde7; padding: 15px; border: 1px solid #fff59d; }
+        .order-line { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+        .order-total { display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #d32f2f; margin-top: 10px; font-weight: bold; font-size: 18px; color: #d32f2f; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
         input { width: 100%; padding: 8px; box-sizing: border-box; }
@@ -62,7 +64,22 @@
     <div id="order-summary">
         <h2>Your Order</h2>
         <ul id="order-items"></ul>
-        <p><strong>Total: $<span id="total-price">0.00</span></strong></p>
+        <div class="order-line">
+            <span>Subtotal:</span>
+            <span>$<span id="subtotal">0.00</span></span>
+        </div>
+        <div class="order-line">
+            <span>Sales Tax (5%):</span>
+            <span>$<span id="tax">0.00</span></span>
+        </div>
+        <div class="order-line">
+            <span>Delivery Fee:</span>
+            <span>$5.00</span>
+        </div>
+        <div class="order-total">
+            <span>TOTAL:</span>
+            <span>$<span id="total-price">0.00</span></span>
+        </div>
     </div>
 
     <form id="delivery-form">
@@ -84,11 +101,13 @@
 
 <script>
     let cart = [];
-    let total = 0;
+    let subtotal = 0;
+    const DELIVERY_FEE = 5.00;
+    const TAX_RATE = 0.05;
 
     function addToOrder(name, price) {
         cart.push({name, price});
-        total += price;
+        subtotal += price;
         updateUI();
     }
 
@@ -97,9 +116,17 @@
         list.innerHTML = '';
         cart.forEach(item => {
             const li = document.createElement('li');
-            li.textContent = `${item.name} - $${item.price}`;
+            li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
             list.appendChild(li);
         });
+        
+        // Calculate tax on subtotal + delivery
+        const taxableAmount = subtotal + DELIVERY_FEE;
+        const tax = taxableAmount * TAX_RATE;
+        const total = subtotal + tax + DELIVERY_FEE;
+        
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('tax').textContent = tax.toFixed(2);
         document.getElementById('total-price').textContent = total.toFixed(2);
     }
 
@@ -111,7 +138,11 @@
         if(cart.length === 0) { alert("Please add items to your order first!"); return; }
 
         const orderDetails = cart.map(i => i.name).join(', ');
-        const message = `NEW ORDER for ${name}: ${orderDetails}. Deliver to: ${address}. Phone: ${phone}. Total: $${total.toFixed(2)}`;
+        const taxableAmount = subtotal + DELIVERY_FEE;
+        const tax = (taxableAmount * TAX_RATE).toFixed(2);
+        const total = (subtotal + parseFloat(tax) + DELIVERY_FEE).toFixed(2);
+        
+        const message = `NEW ORDER for ${name}: ${orderDetails}. Subtotal: $${subtotal.toFixed(2)}, Tax: $${tax}, Delivery: $${DELIVERY_FEE.toFixed(2)}, TOTAL: $${total}. Deliver to: ${address}. Phone: ${phone}`;
         
         alert("Order Received! \n\n" + message);
         console.log("Data to be sent:", message);
