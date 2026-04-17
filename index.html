@@ -19,8 +19,10 @@
         .order-total { display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #d32f2f; margin-top: 10px; font-weight: bold; font-size: 18px; color: #d32f2f; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 8px; box-sizing: border-box; }
-        .submit-btn { background-color: #d32f2f; width: 100%; padding: 15px; font-size: 18px; margin-top: 20px; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        .submit-btn { background-color: #d32f2f; width: 100%; padding: 15px; font-size: 18px; margin-top: 20px; cursor: pointer; border: none; border-radius: 4px; color: white; }
+        .submit-btn:hover { background-color: #b71c1c; }
+        .success-message { display: none; background-color: #4CAF50; color: white; padding: 15px; margin-top: 20px; border-radius: 4px; text-align: center; }
     </style>
 </head>
 <body>
@@ -34,17 +36,17 @@
             <div class="item">
                 <div class="item-info"><strong>Jumbo Burrito</strong><br><small>Rice & beans stuffed</small></div>
                 <span class="price">$17.99</span>
-                <button onclick="addToOrder('Jumbo Burrito', 17.99)">Add</button>
+                <button type="button" onclick="addToOrder('Jumbo Burrito', 17.99)">Add</button>
             </div>
             <div class="item">
                 <div class="item-info"><strong>Steak Relleno Burrito</strong></div>
                 <span class="price">$16.99</span>
-                <button onclick="addToOrder('Steak Relleno Burrito', 16.99)">Add</button>
+                <button type="button" onclick="addToOrder('Steak Relleno Burrito', 16.99)">Add</button>
             </div>
             <div class="item">
                 <div class="item-info"><strong>Triple B Burrito</strong><br><small>Birria & Consome</small></div>
                 <span class="price">$15.99</span>
-                <button onclick="addToOrder('Triple B Burrito', 15.99)">Add</button>
+                <button type="button" onclick="addToOrder('Triple B Burrito', 15.99)">Add</button>
             </div>
         </div>
 
@@ -52,11 +54,11 @@
             <h2>Street Tacos ($15.99)</h2>
             <div class="item">
                 <div class="item-info"><strong>Tacos de Birria</strong></div>
-                <button onclick="addToOrder('Tacos de Birria', 15.99)">Add</button>
+                <button type="button" onclick="addToOrder('Tacos de Birria', 15.99)">Add</button>
             </div>
             <div class="item">
                 <div class="item-info"><strong>Al Pastor Tacos</strong></div>
-                <button onclick="addToOrder('Al Pastor Tacos', 15.99)">Add</button>
+                <button type="button" onclick="addToOrder('Al Pastor Tacos', 15.99)">Add</button>
             </div>
         </div>
     </div>
@@ -82,21 +84,29 @@
         </div>
     </div>
 
-    <form id="delivery-form">
+    <form id="delivery-form" action="https://formspree.io/f/xkokrzlr" method="POST">
         <div class="form-group">
             <label>Your Name</label>
-            <input type="text" id="cust-name" required>
+            <input type="text" name="name" id="cust-name" required>
         </div>
         <div class="form-group">
             <label>Delivery Address (Newcastle)</label>
-            <input type="text" id="cust-address" required>
+            <input type="text" name="address" id="cust-address" required>
         </div>
         <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" id="cust-phone" required>
+            <input type="tel" name="phone" id="cust-phone" required>
         </div>
-        <button type="button" class="submit-btn" onclick="sendOrder()">Request Delivery</button>
+        <div class="form-group">
+            <label>Order Details</label>
+            <textarea name="order_details" id="order-details" readonly></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Request Delivery</button>
     </form>
+
+    <div class="success-message" id="success-message">
+        ✅ Order received! We'll deliver your food soon!
+    </div>
 </div>
 
 <script>
@@ -120,7 +130,6 @@
             list.appendChild(li);
         });
         
-        // Calculate tax on subtotal + delivery
         const taxableAmount = subtotal + DELIVERY_FEE;
         const tax = taxableAmount * TAX_RATE;
         const total = subtotal + tax + DELIVERY_FEE;
@@ -128,25 +137,10 @@
         document.getElementById('subtotal').textContent = subtotal.toFixed(2);
         document.getElementById('tax').textContent = tax.toFixed(2);
         document.getElementById('total-price').textContent = total.toFixed(2);
-    }
-
-    function sendOrder() {
-        const name = document.getElementById('cust-name').value;
-        const address = document.getElementById('cust-address').value;
-        const phone = document.getElementById('cust-phone').value;
         
-        if(cart.length === 0) { alert("Please add items to your order first!"); return; }
-
-        const orderDetails = cart.map(i => i.name).join(', ');
-        const taxableAmount = subtotal + DELIVERY_FEE;
-        const tax = (taxableAmount * TAX_RATE).toFixed(2);
-        const total = (subtotal + parseFloat(tax) + DELIVERY_FEE).toFixed(2);
-        
-        const message = `NEW ORDER for ${name}: ${orderDetails}. Subtotal: $${subtotal.toFixed(2)}, Tax: $${tax}, Delivery: $${DELIVERY_FEE.toFixed(2)}, TOTAL: $${total}. Deliver to: ${address}. Phone: ${phone}`;
-        
-        alert("Order Received! \n\n" + message);
-        console.log("Data to be sent:", message);
-    }
-</script>
-</body>
-</html>
+        // Update order details textarea
+        const taxableAmount2 = subtotal + DELIVERY_FEE;
+        const tax2 = (taxableAmount2 * TAX_RATE).toFixed(2);
+        const total2 = (subtotal + parseFloat(tax2) + DELIVERY_FEE).toFixed(2);
+        const orderDetails = cart.map(i => `${i.name} ($${i.price.toFixed(2)})`).join(', *
+
