@@ -7,96 +7,152 @@
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
         .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #d32f2f; text-align: center; }
-        .menu-category { margin-top: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #fafafa; }
-        .item-info { flex-grow: 1; }
-        .price { font-weight: bold; margin-right: 15px; }
-        button { background-color: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+        h1, h2 { color: #d32f2f; text-align: center; margin-bottom: 5px; }
+        .address { text-align: center; color: #666; margin-bottom: 20px; }
+        .menu-category { margin-top: 30px; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .item-info { flex-grow: 1; padding-right: 10px; }
+        .item-info strong { display: block; font-size: 1.05em; color: #333; }
+        .item-info small { color: #777; font-size: 0.85em; display: block; margin-top: 2px; }
+        .price { font-weight: bold; margin-right: 15px; color: #2e7d32; min-width: 60px; text-align: right; }
+        button { background-color: #4CAF50; color: white; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         button:hover { background-color: #45a049; }
-        #order-summary { margin-top: 30px; background: #fffde7; padding: 15px; border: 1px solid #fff59d; }
-        .order-line { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
-        .order-total { display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #d32f2f; margin-top: 10px; font-weight: bold; font-size: 18px; color: #d32f2f; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
-        .submit-btn { background-color: #d32f2f; width: 100%; padding: 15px; font-size: 18px; margin-top: 20px; cursor: pointer; border: none; border-radius: 4px; color: white; }
+        
+        #order-summary { margin-top: 40px; background: #fffde7; padding: 20px; border: 1px solid #fff59d; border-radius: 8px; }
+        .order-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0e68c; }
+        .order-total { display: flex; justify-content: space-between; padding: 15px 0; border-top: 3px solid #d32f2f; margin-top: 10px; font-weight: bold; font-size: 1.2em; color: #d32f2f; }
+        
+        .form-group { margin-top: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        input, textarea { width: 100%; padding: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; }
+        textarea { height: 120px; background-color: #fdfdfd; font-family: monospace; }
+        .submit-btn { background-color: #d32f2f; width: 100%; padding: 18px; font-size: 1.1em; margin-top: 25px; cursor: pointer; border: none; border-radius: 6px; color: white; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .submit-btn:hover { background-color: #b71c1c; }
     </style>
 </head>
 <body>
+
 <div class="container">
     <h1>Freda's House</h1>
-    <p style="text-align:center;">527 W Warren St, Newcastle, WY</p>
+    <p class="address">527 W Warren St, Newcastle, WY</p>
     
     <div id="menu-container">
-        <div class="menu-category">
-            <h2>Jumbo Burritos</h2>
-            <div class="item">
-                <div class="item-info"><strong>Jumbo Burrito</strong><br><small>Rice & beans stuffed</small></div>
-                <span class="price">$17.99</span>
-                <button type="button" onclick="addToOrder('Jumbo Burrito', 17.99)">Add</button>
-            </div>
-            <div class="item">
-                <div class="item-info"><strong>Steak Relleno Burrito</strong></div>
-                <span class="price">$16.99</span>
-                <button type="button" onclick="addToOrder('Steak Relleno Burrito', 16.99)">Add</button>
-            </div>
-            <div class="item">
-                <div class="item-info"><strong>Triple B Burrito</strong><br><small>Birria & Consome</small></div>
-                <span class="price">$15.99</span>
-                <button type="button" onclick="addToOrder('Triple B Burrito', 15.99)">Add</button>
-            </div>
-        </div>
+        <div class="menu-category"><h2>Jumbo Burritos</h2></div>
+        <div class="item"><div class="item-info"><strong>Jumbo Burrito</strong><small>Rice & beans stuffed</small></div><span class="price">$17.99</span><button type="button" onclick="addToOrder('Jumbo Burrito', 17.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Steak Relleno Burrito</strong><small>Chile relleno, steak & pico</small></div><span class="price">$16.99</span><button type="button" onclick="addToOrder('Steak Relleno Burrito', 16.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Triple B Burrito</strong><small>Birria, onions, cilantro & consome</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Triple B Burrito', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Burrito Mexico</strong><small>Monterey cheese & creamy sauce</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Burrito Mexico', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Green Chili Burrito</strong><small>Pork in green chili & sour cream</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Green Chili Burrito', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Colorado Burrito</strong><small>Tender meat in Colorado chili</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Colorado Burrito', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Frida's Deluxe Burrito</strong><small>Choice of meat, red sauce & cheese</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Frida\'s Deluxe', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Carnitas Burrito</strong><small>Pork carnitas & pico de gallo</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Carnitas Burrito', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Big Cheese Dip Burrito</strong><small>Smothered with cheese dip</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Big Cheese Dip Burrito', 15.99)">Add</button></div>
 
-        <div class="menu-category">
-            <h2>Street Tacos ($15.99)</h2>
-            <div class="item">
-                <div class="item-info"><strong>Tacos de Birria</strong></div>
-                <button type="button" onclick="addToOrder('Tacos de Birria', 15.99)">Add</button>
-            </div>
-            <div class="item">
-                <div class="item-info"><strong>Al Pastor Tacos</strong></div>
-                <button type="button" onclick="addToOrder('Al Pastor Tacos', 15.99)">Add</button>
-            </div>
-        </div>
+        <div class="menu-category"><h2>Combinations</h2></div>
+        <div class="item"><div class="item-info"><strong>#1 One Taco & One Enchilada</strong></div><span class="price">$11.99</span><button type="button" onclick="addToOrder('#1 Taco & Enchilada', 11.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#2 Two Tacos</strong></div><span class="price">$12.99</span><button type="button" onclick="addToOrder('#2 Two Tacos', 12.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#3 Two Enchiladas</strong></div><span class="price">$12.99</span><button type="button" onclick="addToOrder('#3 Two Enchiladas', 12.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#4 One Burrito</strong></div><span class="price">$12.99</span><button type="button" onclick="addToOrder('#4 One Burrito', 12.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#5 One Tamale & One Taco</strong></div><span class="price">$12.99</span><button type="button" onclick="addToOrder('#5 Tamale & Taco', 12.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#6 One Chile Relleno & One Taco</strong></div><span class="price">$13.99</span><button type="button" onclick="addToOrder('#6 Relleno & Taco', 13.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#7 One Chimichanga</strong></div><span class="price">$13.99</span><button type="button" onclick="addToOrder('#7 Chimichanga', 13.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#8 Monterrey Quesadilla</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('#8 Quesadilla', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#9 One Enchilada & One Tamale</strong></div><span class="price">$13.99</span><button type="button" onclick="addToOrder('#9 Enchilada & Tamale', 13.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#10 Two Tamales</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('#10 Two Tamales', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#11 Three Hard Shell Tacos</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('#11 3 Hard Tacos', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#12 Chile Relleno & Enchilada</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('#12 Relleno & Enchilada', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#13 Enchilada & 2 Hard Tacos</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('#13 Enchilada & 2 Tacos', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#14 Enchilada, Tamale & Taco</strong></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('#14 The Trio', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#15 Three Enchiladas</strong></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('#15 3 Enchiladas', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#16 One Taco & Two Enchiladas</strong></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('#16 Taco & 2 Enchiladas', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#17 Three Flautas</strong><small>Chicken tinga or picadillo</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('#17 3 Flautas', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>#18 Seafood Chimichanga</strong><small>Shrimp & white fish</small></div><span class="price">$16.99</span><button type="button" onclick="addToOrder('#18 Seafood Chimi', 16.99)">Add</button></div>
+
+        <div class="menu-category"><h2>Specialties & Sweets</h2></div>
+        <div class="item"><div class="item-info"><strong>Street Tacos (3)</strong><small>Birria, Asada, Pastor, or Carnitas</small></div><span class="price">$15.99</span><button type="button" onclick="addToOrder('Street Tacos', 15.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Huevos Rancheros</strong></div><span class="price">$13.99</span><button type="button" onclick="addToOrder('Huevos Rancheros', 13.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Chilaquiles</strong></div><span class="price">$14.99</span><button type="button" onclick="addToOrder('Chilaquiles', 14.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Tortilla Soup</strong></div><span class="price">$12.99</span><button type="button" onclick="addToOrder('Tortilla Soup', 12.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Menudo (Authentic)</strong></div><span class="price">$17.99</span><button type="button" onclick="addToOrder('Menudo', 17.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Churros</strong></div><span class="price">$6.99</span><button type="button" onclick="addToOrder('Churros', 6.99)">Add</button></div>
+        <div class="item"><div class="item-info"><strong>Flan</strong></div><span class="price">$5.99</span><button type="button" onclick="addToOrder('Flan', 5.99)">Add</button></div>
     </div>
 
     <div id="order-summary">
-        <h2>Your Order</h2>
-        <ul id="order-items"></ul>
-        <div class="order-line">
-            <span>Subtotal:</span>
-            <span>$<span id="subtotal">0.00</span></span>
-        </div>
-        <div class="order-line">
-            <span>Sales Tax (5%):</span>
-            <span>$<span id="tax">0.00</span></span>
-        </div>
-        <div class="order-line">
-            <span>Delivery Fee:</span>
-            <span>$5.00</span>
-        </div>
-        <div class="order-total">
-            <span>TOTAL:</span>
-            <span>$<span id="total-price">0.00</span></span>
-        </div>
+        <h2>Your Order Summary</h2>
+        <ul id="order-items-list" style="padding-left: 20px;"></ul>
+        <div class="order-line"><span>Subtotal:</span><span>$<span id="subtotal">0.00</span></span></div>
+        <div class="order-line"><span>Sales Tax (5%):</span><span>$<span id="tax">0.00</span></span></div>
+        <div class="order-line"><span>Delivery Fee:</span><span>$5.00</span></div>
+        <div class="order-total"><span>TOTAL:</span><span>$<span id="total-price">0.00</span></span></div>
     </div>
 
     <form id="delivery-form" action="https://formspree.io/f/xkokrzlr" method="POST">
         <div class="form-group">
             <label>Your Name</label>
-            <input type="text" name="name" id="cust-name" required>
+            <input type="text" name="name" required>
         </div>
         <div class="form-group">
             <label>Delivery Address (Newcastle)</label>
-            <input type="text" name="address" id="cust-address" required>
+            <input type="text" name="address" required>
         </div>
         <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" name="phone" id="cust-phone" required>
+            <input type="tel" name="phone" required>
         </div>
         <div class="form-group">
-            <label>Order Details</label>
-            <textarea name="order_details" id="order
-
+            <label>Order Details (Automated Summary)</label>
+            <textarea name="order_details" id="order-details-text" readonly required></textarea>
+        </div>
+        <input type="hidden" name="Total_Due" id="hidden-total">
+        
+        <button type="submit" class="submit-btn">Send Order to Cobey</button>
+    </form>
+</div>
+
+<script>
+    let cart = [];
+    const deliveryFee = 5.00;
+    const taxRate = 0.05;
+
+    function addToOrder(name, price) {
+        cart.push({name, price});
+        updateSummary();
+    }
+
+    function updateSummary() {
+        const list = document.getElementById('order-items-list');
+        const detailsText = document.getElementById('order-details-text');
+        list.innerHTML = '';
+        
+        let subtotal = 0;
+        let itemNames = [];
+
+        cart.forEach((item) => {
+            subtotal += item.price;
+            itemNames.push(item.name);
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${item.name}</strong> - $${item.price.toFixed(2)}`;
+            list.appendChild(li);
+        });
+
+        const tax = subtotal * taxRate;
+        const total = subtotal + tax + deliveryFee;
+
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('tax').textContent = tax.toFixed(2);
+        document.getElementById('total-price').textContent = total.toFixed(2);
+        
+        // This formats the message exactly as you'll see it in your notification
+        detailsText.value = "ITEMS: " + itemNames.join(", ") + 
+                           "\n\nSubtotal: $" + subtotal.toFixed(2) + 
+                           "\nTax: $" + tax.toFixed(2) + 
+                           "\nDelivery Fee: $5.00" + 
+                           "\nTOTAL TO COLLECT: $" + total.toFixed(2);
+                           
+        document.getElementById('hidden-total').value = "$" + total.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
